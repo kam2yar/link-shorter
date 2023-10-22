@@ -2,7 +2,8 @@
   "require": {
     "php": "^8.2",
     "ext-json": "*",
-    "pecee/simple-router": "^5.3"
+    "pecee/simple-router": "^5.3",
+    "vlucas/phpdotenv": "^5.5"
   },
   "autoload": {
     "psr-4": {

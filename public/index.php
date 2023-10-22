@@ -2,10 +2,14 @@
 
 use Pecee\SimpleRouter\SimpleRouter;
 
-require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../routes/api.php';
-require __DIR__ . '/../vendor/pecee/simple-router/helpers.php';
+const BASE_DIR = __DIR__ . '/../';
+
+require BASE_DIR . 'vendor/autoload.php';
+require BASE_DIR . 'vendor/pecee/simple-router/helpers.php';
+require BASE_DIR . 'routes/api.php';
 
 SimpleRouter::setDefaultNamespace('\App\Controllers');
+
+Dotenv\Dotenv::createImmutable(BASE_DIR, '.env')->safeLoad();
 
 SimpleRouter::start();
