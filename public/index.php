@@ -10,6 +10,6 @@ require BASE_DIR . 'routes/api.php';
 
 SimpleRouter::setDefaultNamespace('\App\Controllers');
 
-Dotenv\Dotenv::createImmutable(BASE_DIR, '.env')->safeLoad();
+Dotenv\Dotenv::createImmutable(BASE_DIR)->safeLoad();
 
 SimpleRouter::start();
