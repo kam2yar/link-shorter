@@ -1,14 +1,14 @@
 <?php
 
-use Pecee\SimpleRouter\SimpleRouter;
+use Pecee\SimpleRouter\SimpleRouter as Route;
 
 
-SimpleRouter::group(['namespace' => 'Api\V1', 'prefix' => '/api/v1/'], function () {
-    SimpleRouter::get('ping', 'HealthController@ping');
+Route::group(['namespace' => 'Api\V1', 'prefix' => '/api/v1/'], function () {
+    Route::get('ping', 'HealthController@ping');
 
-
-    SimpleRouter::group(['prefix' => '/link/'], function () {
-        SimpleRouter::get('my', 'LinkController@myLinks');
-        SimpleRouter::post('short', 'LinkController@short');
+    Route::group(['prefix' => '/link/'], function () {
+        Route::get('/', 'LinkController@myLinks');
+        Route::post('/', 'LinkController@short');
+        Route::get('{short}', 'LinkController@get');
     });
 });

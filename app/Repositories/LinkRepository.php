@@ -2,31 +2,35 @@
 
 namespace App\Repositories;
 
-use App\Entities\Entity;
 use App\Entities\Link;
 use App\Services\QueryBuilder\QueryBuilder;
+use PDO;
 
 class LinkRepository extends BaseRepository
 {
-    public function setEntity(): void
+    public function findByShortLink(string $short): ?string
+    {
+        $query = QueryBuilder::select('long')
+            ->from($this->entity->getTableName())
+            ->where('short = :short')
+            ->limit(1)
+            ->orderBy('id DESC');
+
+        $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
+        $stmt->execute([
+            'short' => $short
+        ]);
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$result) {
+            return null;
+        }
+
+        return $result['long'];
+    }
+
+    protected function setEntity(): void
     {
         $this->entity = new Link();
     }
-
-    public function insert(Entity $entity): bool
-    {
-        $query = (new QueryBuilder())
-            ->insert($entity->getTableName())
-            ->columns('short', 'long', 'user_id', 'created_at');
-
-        $stmt = $entity->getDatabase()->getConnection()->prepare($query);
-        
-        return $stmt->execute([
-            'short' => $entity->short,
-            'long' => $entity->long,
-            'user_id' => $entity->userId,
-            'created_at' => $entity->createdAt
-        ]);
-    }
-
 }

@@ -8,7 +8,7 @@ class User extends Entity
 {
     public string $tableName = 'users';
 
-    public int $id;
+    public ?int $id = null;
 
     public string $email;
 

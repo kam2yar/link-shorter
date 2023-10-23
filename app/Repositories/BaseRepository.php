@@ -15,12 +15,14 @@ abstract class BaseRepository
         $this->setEntity();
     }
 
-    abstract public function setEntity();
+    abstract protected function setEntity();
 
-    public function all(): array
+    public function all(?array $fields = null): array
     {
+        $fields = $fields ?: $this->entity->getFields();
+
         $query = (new QueryBuilder())
-            ->select('*')
+            ->select(...$fields)
             ->from($this->entity->getTableName());
 
         return $this->entity->getDatabase()->getConnection()->query($query)->fetchAll(PDO::FETCH_ASSOC);
@@ -45,6 +47,22 @@ abstract class BaseRepository
         }
 
         return $result;
+    }
+
+    public function insert(Entity $entity): bool
+    {
+        $query = (new QueryBuilder())
+            ->insert($entity->getTableName())
+            ->columns(...$entity->getFields());
+
+        $stmt = $entity->getDatabase()->getConnection()->prepare($query);
+
+        $params = [];
+        foreach ($entity->getFields() as $param => $name) {
+            $params[$name] = $entity->{$param};
+        }
+
+        return $stmt->execute($params);
     }
 
     public function delete(int $id): void

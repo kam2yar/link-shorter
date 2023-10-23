@@ -8,6 +8,9 @@
     "ext-pdo": "*"
   },
   "autoload": {
+    "files": [
+      "app/Services/helpers.php"
+    ],
     "psr-4": {
       "App\\": "app/"
     }

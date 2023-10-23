@@ -6,7 +6,7 @@ use App\Entities\User;
 
 class UserRepository extends BaseRepository
 {
-    public function setEntity(): void
+    protected function setEntity(): void
     {
         $this->entity = new User();
     }
