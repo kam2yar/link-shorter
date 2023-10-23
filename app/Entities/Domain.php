@@ -4,17 +4,13 @@ namespace App\Entities;
 
 use App\Services\Database\Mysql;
 
-class Link extends Entity
+class Domain extends Entity
 {
     public ?int $id = null;
 
-    public string $short;
+    public string $name;
 
-    public string $original;
-
-    public ?int $userId = null;
-
-    public ?int $domainId = null;
+    public bool $active;
 
     public ?string $createdAt = null;
 
@@ -22,7 +18,7 @@ class Link extends Entity
 
     protected function setTableName(): self
     {
-        $this->tableName = 'links';
+        $this->tableName = 'domains';
         return $this;
     }
 
@@ -36,10 +32,8 @@ class Link extends Entity
     {
         $this->fields = [
             'id' => 'id',
-            'short' => 'short',
-            'original' => 'original',
-            'userId' => 'user_id',
-            'domainId' => 'domain_id',
+            'name' => 'name',
+            'active' => 'active',
             'createdAt' => 'created_at',
             'updatedAt' => 'updated_at'
         ];

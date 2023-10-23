@@ -15,7 +15,10 @@ class AuthMiddleware implements IMiddleware
         $token = getallheaders()['Authorization'] ?? null;
 
         if (!$token) {
-            return;
+            response()->httpCode(403)->json([
+                'success' => false,
+                'message' => 'Access denied'
+            ]);
         }
 
         if (!preg_match('/Bearer\s(\S+)/', $token, $matches)) {
@@ -41,7 +44,7 @@ class AuthMiddleware implements IMiddleware
     public function invalidToken(): void
     {
         unset($_SESSION['userId']);
-        
+
         response()->httpCode(403)->json([
             'success' => false,
             'message' => 'Invalid token'

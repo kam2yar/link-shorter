@@ -25,6 +25,7 @@ class LinkController extends Controller
         $entity->short = uniqid();
         $entity->original = input('original');
         $entity->userId = $this->userId;
+        $entity->domainId = null;
         $entity->createdAt = now();
         $entity->updatedAt = now();
 
