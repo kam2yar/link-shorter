@@ -17,17 +17,9 @@ class Update implements QueryInterface
 
     public function __toString(): string
     {
-        $columns = array_map(function ($item) {
-            return '`' . $item . '`';
-        }, $this->columns);
-
-        $conditions = array_map(function ($item) {
-            return '`' . $item . '`';
-        }, $this->conditions);
-
         return 'UPDATE ' . $this->table
-            . ' SET ' . implode(', ', $columns)
-            . ($this->conditions === [] ? '' : ' WHERE ' . implode(' AND ', $conditions));
+            . ' SET ' . implode(', ', $this->columns)
+            . ($this->conditions === [] ? '' : ' WHERE ' . implode(' AND ', $this->conditions));
     }
 
     public function where(string ...$where): self
@@ -35,6 +27,7 @@ class Update implements QueryInterface
         foreach ($where as $arg) {
             $this->conditions[] = $arg;
         }
+
         return $this;
     }
 
@@ -43,6 +36,7 @@ class Update implements QueryInterface
         foreach ($columns as $column) {
             $this->columns[] = "$column = :$column";
         }
+
         return $this;
     }
 }

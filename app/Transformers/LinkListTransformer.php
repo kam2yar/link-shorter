@@ -9,7 +9,7 @@ class LinkListTransformer
         return array_map(function ($link) {
             return [
                 'short_link' => base_url() . $link['short'],
-                'long_link' => $link['long'],
+                'original_link' => $link['original'],
             ];
         }, $input);
     }

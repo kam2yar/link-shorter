@@ -14,6 +14,7 @@ Route::group(['namespace' => 'Api\V1', 'prefix' => '/api/v1/'], function () {
 
             Route::get('/', 'LinkController@myLinks');
             Route::get('{short}', 'LinkController@get');
+            Route::patch('{short}', 'LinkController@update');
             Route::delete('{short}', 'LinkController@delete');
         });
     });

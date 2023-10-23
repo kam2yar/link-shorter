@@ -65,6 +65,19 @@ abstract class BaseRepository
         return $stmt->execute($params);
     }
 
+    public function update(int $id, array $data): bool
+    {
+        $query = (new QueryBuilder())
+            ->update($this->entity->getTableName())
+            ->where('id = :id')
+            ->set(...array_keys($data));
+        
+        $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
+        $params = array_merge(['id' => $id], $data);
+
+        return $stmt->execute($params);
+    }
+
     public function delete(int $id): bool
     {
         $query = (new QueryBuilder())

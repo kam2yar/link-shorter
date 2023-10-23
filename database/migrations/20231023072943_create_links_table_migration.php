@@ -11,11 +11,14 @@ final class CreateLinksTableMigration extends AbstractMigration
     {
         $this->table('links')
             ->addColumn('short', 'string')
-            ->addColumn('long', 'text')
+            ->addColumn('original', 'text')
             ->addColumn('user_id', 'integer', ['null' => true])
+            ->addColumn('domain_id', 'integer', ['null' => true])
             ->addColumn('created_at', 'datetime', ['null' => true])
+            ->addColumn('updated_at', 'datetime', ['null' => true])
             ->addIndex('short', Index::TYPE_UNIQUE)
             ->addForeignKey('user_id', 'users', 'id', 'cascade')
+            ->addForeignKey('domain_id', 'domains', 'id', 'cascade')
             ->create();
 
     }

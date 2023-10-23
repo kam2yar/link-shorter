@@ -18,6 +18,6 @@ class RedirectController extends Controller
             throw new NotFoundHttpException();
         }
 
-        redirect($link['long'], 302);
+        redirect($link['original'], 302);
     }
 }

@@ -10,11 +10,13 @@ class Link extends Entity
 
     public string $short;
 
-    public string $long;
+    public string $original;
 
     public ?int $userId = null;
 
     public ?string $createdAt = null;
+
+    public ?string $updatedAt = null;
 
     protected function setTableName(): self
     {
@@ -32,8 +34,8 @@ class Link extends Entity
     {
         $this->fields = [
             'id' => 'id',
-            'long' => 'long',
             'short' => 'short',
+            'original' => 'original',
             'userId' => 'user_id',
             'createdAt' => 'created_at'
         ];

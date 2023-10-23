@@ -28,17 +28,13 @@ class Select implements QueryInterface
         foreach ($select as $arg) {
             $this->fields[] = $arg;
         }
-        
+
         return $this;
     }
 
     public function __toString(): string
     {
-        $fields = array_map(function ($item) {
-            return '`' . $item . '`';
-        }, $this->fields);
-
-        return 'SELECT ' . implode(', ', $fields)
+        return 'SELECT ' . implode(', ', $this->fields)
             . ' FROM ' . implode(', ', $this->from)
             . ($this->leftJoin === [] ? '' : ' LEFT JOIN ' . implode(' LEFT JOIN ', $this->leftJoin))
             . ($this->innerJoin === [] ? '' : ' INNER JOIN ' . implode(' INNER JOIN ', $this->innerJoin))
