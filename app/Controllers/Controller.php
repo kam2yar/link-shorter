@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Services\Cache\Cache;
+use App\Services\Cache\Redis;
 
 class Controller
 {
@@ -13,6 +14,6 @@ class Controller
     public function __construct()
     {
         $this->userId = $_SESSION['userId'] ?? null;
-        $this->cache = new Cache();
+        $this->cache = new Redis();
     }
 }
