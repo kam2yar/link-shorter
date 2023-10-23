@@ -8,9 +8,9 @@ use PDO;
 
 class LinkRepository extends BaseRepository
 {
-    public function findByShortLink(string $short): ?string
+    public function findByShortLink(string $short): ?array
     {
-        $query = QueryBuilder::select('long')
+        $query = QueryBuilder::select(...$this->entity->getFields())
             ->from($this->entity->getTableName())
             ->where('short = :short')
             ->limit(1)
@@ -26,7 +26,7 @@ class LinkRepository extends BaseRepository
             return null;
         }
 
-        return $result['long'];
+        return $result;
     }
 
     protected function setEntity(): void

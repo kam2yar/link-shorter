@@ -19,7 +19,7 @@ class LinkController
     public function short(): void
     {
         $entity = new Link();
-        $entity->short = rand(0, 999999);
+        $entity->short = uniqid();
         $entity->long = input('long');
         $entity->userId = null;
         $entity->createdAt = date('Y-m-d H:i:s');
@@ -42,14 +42,27 @@ class LinkController
 
     public function get(string $short): void
     {
-        $long = $this->repository->findByShortLink($short);
+        $link = $this->repository->findByShortLink($short);
 
-        if (!$long) {
+        if (!$link) {
             throw new NotFoundHttpException();
         }
 
         response()->json([
-            'long_link' => $long
+            'long_link' => $link['long']
+        ]);
+    }
+
+    public function delete(string $short): void
+    {
+        $link = $this->repository->findByShortLink($short);
+
+        if (!$link) {
+            throw new NotFoundHttpException();
+        }
+        
+        response()->json([
+            'success' => $this->repository->delete($link['id'])
         ]);
     }
 }

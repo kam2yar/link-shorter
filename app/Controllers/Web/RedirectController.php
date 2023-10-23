@@ -11,12 +11,12 @@ class RedirectController
     {
         $repository = new LinkRepository();
 
-        $long = $repository->findByShortLink($short);
+        $link = $repository->findByShortLink($short);
 
-        if (!$long) {
+        if (!$link) {
             throw new NotFoundHttpException();
         }
 
-        redirect($long, 302);
+        redirect($link['long'], 302);
     }
 }

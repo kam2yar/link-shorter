@@ -65,13 +65,13 @@ abstract class BaseRepository
         return $stmt->execute($params);
     }
 
-    public function delete(int $id): void
+    public function delete(int $id): bool
     {
         $query = (new QueryBuilder())
             ->delete($this->entity->getTableName())
             ->where('id = :id');
 
         $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
-        $stmt->execute(['id' => $id]);
+        return $stmt->execute(['id' => $id]);
     }
 }
