@@ -13,6 +13,7 @@ abstract class BaseRepository
     public function __construct()
     {
         $this->setEntity();
+
     }
 
     abstract protected function setEntity();
@@ -87,5 +88,20 @@ abstract class BaseRepository
 
         $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
         return $stmt->execute(['id' => $id]);
+    }
+
+    public function beginTransaction(): void
+    {
+        $this->entity->getDatabase()->getConnection()->beginTransaction();
+    }
+
+    public function commit(): void
+    {
+        $this->entity->getDatabase()->getConnection()->commit();
+    }
+
+    public function rollback(): void
+    {
+        $this->entity->getDatabase()->getConnection()->rollBack();
     }
 }

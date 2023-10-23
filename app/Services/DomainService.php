@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Entities\Domain;
 use App\Repositories\DomainRepository;
+use Exception;
 use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 
 class DomainService
@@ -69,6 +70,16 @@ class DomainService
             $data['updated_at'] = now();
         }
 
-        return $this->domainRepository->update($id, $data);
+        $this->domainRepository->beginTransaction();
+
+        try {
+            $this->domainRepository->update($id, $data);
+            $this->domainRepository->commit();
+        } catch (Exception) {
+            $this->domainRepository->rollback();
+            return false;
+        }
+
+        return true;
     }
 }

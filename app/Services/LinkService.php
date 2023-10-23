@@ -90,6 +90,16 @@ class LinkService
             $data['updated_at'] = now();
         }
 
-        return $this->linkRepository->update($id, $data);
+        $this->linkRepository->beginTransaction();
+
+        try {
+            $this->linkRepository->update($id, $data);
+            $this->linkRepository->commit();
+        } catch (Exception) {
+            $this->linkRepository->rollback();
+            return false;
+        }
+
+        return true;
     }
 }
