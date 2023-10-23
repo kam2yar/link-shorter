@@ -34,7 +34,7 @@ class LinkController extends Controller
 
     public function delete(string $short): void
     {
-        $link = $this->findOrFail($short);
+        $link = $this->linkService->findOrFail($short);
         $result = $this->linkService->delete($link['id']);
 
         response()->json([
