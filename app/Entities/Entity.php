@@ -2,13 +2,13 @@
 
 namespace App\Entities;
 
-use Database\Connections\DataBaseConnection;
+use Database\Connections\DatabaseConnection;
 
 abstract class Entity
 {
     protected string $tableName;
 
-    protected DataBaseConnection $connection;
+    protected DatabaseConnection $connection;
 
     public function __construct()
     {
@@ -25,7 +25,7 @@ abstract class Entity
 
     abstract public function setTableName(): self;
 
-    public function getConnection(): DataBaseConnection
+    public function getConnection(): DatabaseConnection
     {
         return $this->connection;
     }

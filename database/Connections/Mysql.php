@@ -6,7 +6,7 @@ use App\DTO\ResultCollection;
 use App\Entities\Entity;
 use PDO;
 
-class Mysql extends DataBaseConnection
+class Mysql extends DatabaseConnection
 {
     protected PDO $db;
 

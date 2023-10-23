@@ -2,7 +2,7 @@
 
 namespace Database\Connections;
 
-abstract class DataBaseConnection
+abstract class DatabaseConnection
 {
     public function __construct()
     {
