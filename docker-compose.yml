@@ -7,7 +7,7 @@ services:
     volumes:
       - './:/var/www/html'
     ports:
-      - '${APP_PORT:-80}:80'
+      - '${FORWARD_APP_PORT:-80}:80'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
     networks:
