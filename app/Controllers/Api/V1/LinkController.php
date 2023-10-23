@@ -5,6 +5,7 @@ namespace App\Controllers\Api\V1;
 use App\Controllers\Controller;
 use App\Services\DomainService;
 use App\Services\LinkService;
+use Exception;
 
 class LinkController extends Controller
 {
@@ -23,6 +24,11 @@ class LinkController extends Controller
         $domainId = input('domain_id');
         if ($domainId) {
             $domain = (new DomainService())->findOrFail($domainId);
+
+            if (!$domain['active']) {
+                throw new Exception('Domain is not active');
+            }
+
             $baseUrl = 'https://' . $domain['name'] . '/';
         }
 
