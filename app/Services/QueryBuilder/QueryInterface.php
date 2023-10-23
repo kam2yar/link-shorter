@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\QueryBuilder\Interfaces;
+namespace App\Services\QueryBuilder;
 
 interface QueryInterface
 {

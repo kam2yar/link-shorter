@@ -2,14 +2,12 @@
 
 namespace App\Services\QueryBuilder;
 
-use App\Services\QueryBuilder\Interfaces\QueryInterface;
-
 class Update implements QueryInterface
 {
     private string $table;
 
     private array $conditions = [];
-    
+
     private array $columns = [];
 
     public function __construct(string $table)

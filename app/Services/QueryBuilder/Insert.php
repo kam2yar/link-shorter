@@ -2,8 +2,6 @@
 
 namespace App\Services\QueryBuilder;
 
-use App\Services\QueryBuilder\Interfaces\QueryInterface;
-
 class Insert implements QueryInterface
 {
     private string $table;

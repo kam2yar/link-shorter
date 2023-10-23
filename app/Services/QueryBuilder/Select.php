@@ -2,8 +2,6 @@
 
 namespace App\Services\QueryBuilder;
 
-use App\Services\QueryBuilder\Interfaces\QueryInterface;
-
 class Select implements QueryInterface
 {
     private array $fields = [];
