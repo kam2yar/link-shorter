@@ -10,10 +10,13 @@ abstract class BaseRepository
 {
     protected Entity $entity;
 
+    protected PDO $connection;
+
     public function __construct()
     {
         $this->setEntity();
 
+        $this->connection = $this->entity->getDatabase()->getConnection();
     }
 
     abstract protected function setEntity();
@@ -27,7 +30,7 @@ abstract class BaseRepository
             ->from($this->entity->getTableName())
             ->limit($limit);
 
-        return $this->entity->getDatabase()->getConnection()->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->connection->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function find(mixed $value, string $field = 'id'): ?array
@@ -38,7 +41,7 @@ abstract class BaseRepository
             ->where($field . ' = :field')
             ->limit(1);
 
-        $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
+        $stmt = $this->connection->prepare($query);
         $stmt->execute([
             'field' => $value
         ]);
@@ -57,7 +60,7 @@ abstract class BaseRepository
             ->insert($entity->getTableName())
             ->columns(...$entity->getFields());
 
-        $stmt = $entity->getDatabase()->getConnection()->prepare($query);
+        $stmt = $this->connection->prepare($query);
 
         $params = [];
         foreach ($entity->getFields() as $param => $name) {
@@ -74,7 +77,7 @@ abstract class BaseRepository
             ->where('id = :id')
             ->set(...array_keys($data));
 
-        $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
+        $stmt = $this->connection->prepare($query);
         $params = array_merge(['id' => $id], $data);
 
         return $stmt->execute($params);
@@ -86,22 +89,22 @@ abstract class BaseRepository
             ->delete($this->entity->getTableName())
             ->where('id = :id');
 
-        $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
+        $stmt = $this->connection->prepare($query);
         return $stmt->execute(['id' => $id]);
     }
 
     public function beginTransaction(): void
     {
-        $this->entity->getDatabase()->getConnection()->beginTransaction();
+        $this->connection->beginTransaction();
     }
 
     public function commit(): void
     {
-        $this->entity->getDatabase()->getConnection()->commit();
+        $this->connection->commit();
     }
 
     public function rollback(): void
     {
-        $this->entity->getDatabase()->getConnection()->rollBack();
+        $this->connection->rollBack();
     }
 }

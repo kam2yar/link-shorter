@@ -21,7 +21,7 @@ class LinkController extends Controller
     {
         $this->validator->validate(input()->all(), [
             'original' => 'required|url',
-            'domain_id' => 'nullable|numeric'
+            'domain_id' => 'nullable|numeric|exist:domains,id'
         ]);
 
         $short = $this->linkService->short(input('original'), $this->userId, input('domain_id'));

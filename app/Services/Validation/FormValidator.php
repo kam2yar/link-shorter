@@ -12,6 +12,7 @@ class FormValidator
     {
         $this->validator = new Validator();
         $this->validator->addValidator('unique', new UniqueRule());
+        $this->validator->addValidator('exist', new ExistRule());
     }
 
     public function validate(array $inputs = [], array $rules = [], array $messages = []): void
