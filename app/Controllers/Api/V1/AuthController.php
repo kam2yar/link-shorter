@@ -3,55 +3,32 @@
 namespace App\Controllers\Api\V1;
 
 use App\Controllers\Controller;
-use App\Entities\User;
-use App\Repositories\UserRepository;
-use App\Services\Auth\JwtHandler;
+use App\Services\Auth\AuthService;
 
 class AuthController extends Controller
 {
-    protected UserRepository $userRepository;
+    protected AuthService $authService;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->userRepository = new UserRepository();
+        $this->authService = new AuthService();
     }
 
     public function register(): void
     {
-        $user = new User();
-        $user->email = input('email');
-        $user->password = password_hash(input('password'), PASSWORD_BCRYPT);
-        $user->createdAt = now();
-
-        $this->userRepository->insert($user);
+        $success = $this->authService->register(input('email'), input('password'));
 
         response()->httpCode(201)->json([
-            'success' => true,
+            'success' => $success,
             'message' => 'User created successfully, you can login now'
         ]);
     }
 
     public function login(): void
     {
-        $user = $this->userRepository->find(input('email'), 'email');
-
-        if (!$user) {
-            response()->httpCode(422)->json([
-                'success' => false,
-                'message' => 'User not found'
-            ]);
-        }
-
-        if (!password_verify(input('password'), $user['password'])) {
-            response()->httpCode(401)->json([
-                'success' => false,
-                'message' => 'Incorrect password'
-            ]);
-        }
-
-        $token = (new JwtHandler())->encodeToken($user['id']);
+        $token = $this->authService->login(input('email'), input('password'));
 
         response()->httpCode(201)->json([
             'success' => true,
