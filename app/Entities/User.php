@@ -14,11 +14,11 @@ class User extends Entity
 
     public string $password;
 
-    public ?string $createdAt;
+    public ?string $createdAt = null;
 
-    protected function setConnection(): self
+    protected function setDatabase(): self
     {
-        $this->connection = new Mysql();
+        $this->database = new Mysql();
         return $this;
     }
 

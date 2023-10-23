@@ -7,7 +7,7 @@ use App\Repositories\LinkRepository;
 
 class LinkController
 {
-    public function short()
+    public function short(): void
     {
         $repository = new LinkRepository();
         $entity = new Link();
@@ -21,7 +21,7 @@ class LinkController
         ]);
     }
 
-    public function all()
+    public function myLinks(): void
     {
         $repository = new LinkRepository();
         $links = $repository->all();

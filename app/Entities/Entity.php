@@ -2,20 +2,20 @@
 
 namespace App\Entities;
 
-use App\Services\Database\DatabaseConnection;
+use App\Services\Database\Database;
 
 abstract class Entity
 {
     protected string $tableName;
 
-    protected DatabaseConnection $connection;
+    protected Database $database;
 
     protected array $fields;
 
     public function __construct()
     {
         $this->setTableName();
-        $this->setConnection();
+        $this->setDatabase();
         $this->setFields();
     }
 
@@ -26,12 +26,12 @@ abstract class Entity
 
     abstract protected function setTableName(): self;
 
-    public function getConnection(): DatabaseConnection
+    public function getDatabase(): Database
     {
-        return $this->connection;
+        return $this->database;
     }
 
-    abstract protected function setConnection(): self;
+    abstract protected function setDatabase(): self;
 
     public function toArray(): array
     {

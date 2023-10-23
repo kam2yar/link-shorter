@@ -12,9 +12,9 @@ class Link extends Entity
 
     public string $long;
 
-    public ?int $userId;
+    public ?int $userId = null;
 
-    public ?string $createdAt;
+    public ?string $createdAt = null;
 
     protected function setTableName(): self
     {
@@ -22,9 +22,9 @@ class Link extends Entity
         return $this;
     }
 
-    protected function setConnection(): self
+    protected function setDatabase(): self
     {
-        $this->connection = new Mysql();
+        $this->database = new Mysql();
         return $this;
     }
 
