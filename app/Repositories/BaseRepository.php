@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\DTO\ResultCollection;
 use App\Entities\Entity;
 
 abstract class BaseRepository
@@ -16,17 +15,17 @@ abstract class BaseRepository
 
     abstract public function setEntity();
 
-    public function all(): ResultCollection
+    public function all(): array
     {
         return $this->entity->getConnection()->all($this->entity);
     }
 
-    public function save(Entity $entity): Entity
+    public function save(Entity $entity): ?array
     {
         return $this->entity->getConnection()->save($entity);
     }
 
-    public function find(int $id): ?Entity
+    public function find(int $id): ?array
     {
         return $this->entity->getConnection()->find($this->entity, $id);
     }
