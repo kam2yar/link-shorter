@@ -17,13 +17,14 @@ abstract class BaseRepository
 
     abstract protected function setEntity();
 
-    public function all(?array $fields = null): array
+    public function all(?array $fields = null, $limit = 1000): array
     {
         $fields = $fields ?: $this->entity->getFields();
 
         $query = (new QueryBuilder())
             ->select(...$fields)
-            ->from($this->entity->getTableName());
+            ->from($this->entity->getTableName())
+            ->limit($limit);
 
         return $this->entity->getDatabase()->getConnection()->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }

@@ -3,33 +3,22 @@
 namespace App\Controllers\Api\V1;
 
 use App\Controllers\Controller;
-use App\Entities\Link;
-use App\Repositories\LinkRepository;
-use App\Transformers\LinkListTransformer;
-use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
+use App\Services\LinkService;
 
 class LinkController extends Controller
 {
-    protected LinkRepository $linkRepository;
+    protected LinkService $linkService;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->linkRepository = new LinkRepository();
+        $this->linkService = new LinkService();
     }
 
     public function short(): void
     {
-        $entity = new Link();
-        $entity->short = uniqid();
-        $entity->original = input('original');
-        $entity->userId = $this->userId;
-        $entity->domainId = null;
-        $entity->createdAt = now();
-        $entity->updatedAt = now();
-
-        $this->linkRepository->insert($entity);
+        $entity = $this->linkService->short(input('original', $this->userId));
 
         response()->httpCode(201)->json([
             'short_link' => base_url() . $entity->short
@@ -38,33 +27,24 @@ class LinkController extends Controller
 
     public function myLinks(): void
     {
-        $links = $this->linkRepository->all(['short', 'original']);
-
         response()->json([
-            'links' => LinkListTransformer::transform($links)
+            'links' => $this->linkService->getMyLinks($this->userId)
         ]);
     }
 
     public function delete(string $short): void
     {
-        $link = $this->linkRepository->find($short, 'short');
-
-        if (!$link) {
-            throw new NotFoundHttpException();
-        }
+        $link = $this->findOrFail($short);
+        $result = $this->linkService->delete($link['id']);
 
         response()->json([
-            'success' => $this->linkRepository->delete($link['id'])
+            'success' => $result
         ]);
     }
 
     public function get(string $short): void
     {
-        $link = $this->linkRepository->find($short, 'short');
-
-        if (!$link) {
-            throw new NotFoundHttpException();
-        }
+        $link = $this->linkService->findOrFail($short);
 
         response()->json([
             'original_link' => $link['original']
@@ -73,34 +53,16 @@ class LinkController extends Controller
 
     public function update(string $short): void
     {
-        $link = $this->linkRepository->find($short, 'short');
-
-        if (!$link) {
-            throw new NotFoundHttpException();
-        }
-
-        $data = [];
-
-        if ($short = input('short')) {
-            $data['short'] = $short;
-        }
-
-        if ($original = input('original')) {
-            $data['original'] = $original;
-        }
-
-        if (empty($data)) {
-            response()->json([
-                'success' => true
-            ]);
-        } else {
-            $data['updated_at'] = now();
-        }
-
-        $success = $this->linkRepository->update($link['id'], $data);
+        $link = $this->linkService->findOrFail($short);
+        $result = $this->linkService->update(
+            $link['id'],
+            input('short'),
+            input('original'),
+            input('domain_id')
+        );
 
         response()->json([
-            'success' => $success
+            'success' => $result
         ]);
     }
 }

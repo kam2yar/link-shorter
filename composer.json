@@ -1,11 +1,11 @@
 {
   "require": {
     "php": "^8.2",
+    "ext-pdo": "*",
     "ext-json": "*",
     "pecee/simple-router": "^5.3",
     "vlucas/phpdotenv": "^5.5",
     "lulco/phoenix": "^2.4",
-    "ext-pdo": "*",
     "firebase/php-jwt": "^6.9",
     "predis/predis": "^2.2"
   },
