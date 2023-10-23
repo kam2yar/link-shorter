@@ -3,15 +3,20 @@
 namespace App\Services\Cache;
 
 use Exception;
+use Predis\Client;
 use Predis\ClientInterface;
 
 class Cache
 {
     private ClientInterface $redis;
 
-    public function __construct(ClientInterface $redis)
+    public function __construct()
     {
-        $this->redis = $redis;
+        $this->redis = new Client([
+            'scheme' => 'tcp',
+            'host' => $_ENV['REDIS_HOST'],
+            'port' => $_ENV['REDIS_PORT']
+        ]);
     }
 
     public function remember($key, callable $callback = null, $ttl = null)

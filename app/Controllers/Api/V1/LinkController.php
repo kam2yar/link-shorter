@@ -45,6 +45,19 @@ class LinkController extends Controller
         ]);
     }
 
+    public function delete(string $short): void
+    {
+        $link = $this->linkRepository->find($short, 'short');
+
+        if (!$link) {
+            throw new NotFoundHttpException();
+        }
+
+        response()->json([
+            'success' => $this->linkRepository->delete($link['id'])
+        ]);
+    }
+
     public function get(string $short): void
     {
         $link = $this->linkRepository->find($short, 'short');
@@ -88,19 +101,6 @@ class LinkController extends Controller
 
         response()->json([
             'success' => $success
-        ]);
-    }
-
-    public function delete(string $short): void
-    {
-        $link = $this->linkRepository->find($short, 'short');
-
-        if (!$link) {
-            throw new NotFoundHttpException();
-        }
-
-        response()->json([
-            'success' => $this->linkRepository->delete($link['id'])
         ]);
     }
 }
