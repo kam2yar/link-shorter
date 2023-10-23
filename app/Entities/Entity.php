@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use Database\Connections\DatabaseConnection;
+use App\Services\Database\DatabaseConnection;
 
 abstract class Entity
 {

@@ -2,15 +2,15 @@
 
 namespace App\Entities;
 
-use Database\Connections\Mysql;
+use App\Services\Database\Mysql;
 
 class Link extends Entity
 {
     public int $id;
 
-    public string $long;
-
     public string $short;
+
+    public string $long;
 
     public ?int $userId;
 

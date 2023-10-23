@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Connections;
+namespace App\Services\Database;
 
 abstract class DatabaseConnection
 {

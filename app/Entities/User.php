@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use Database\Connections\Mysql;
+use App\Services\Database\Mysql;
 
 class User extends Entity
 {
