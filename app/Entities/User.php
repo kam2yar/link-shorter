@@ -8,76 +8,35 @@ class User extends Entity
 {
     public string $tableName = 'users';
 
-    private int $id;
+    public int $id;
 
-    private string $email;
+    public string $email;
 
-    private string $password;
+    public string $password;
 
-    private string $createdAt;
+    public ?string $createdAt;
 
-    public function setTableName(): self
-    {
-        $this->tableName = 'users';
-        return $this;
-    }
-
-    public function setConnection(): self
+    protected function setConnection(): self
     {
         $this->connection = new Mysql();
         return $this;
     }
 
-    public function mapToObject(array $data): self
+    protected function setTableName(): self
     {
-        return (new static())
-            ->setId($data['id'])
-            ->setEmail($data['email'])
-            ->setPassword($data['password'])
-            ->setCreatedAt($data['created_at']);
-    }
-
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function setId(int $id): self
-    {
-        $this->id = $id;
+        $this->tableName = 'users';
         return $this;
     }
 
-    public function getEmail(): string
+    protected function setFields(): self
     {
-        return $this->email;
-    }
+        $this->fields = [
+            'id' => 'id',
+            'email' => 'email',
+            'password' => 'password',
+            'createdAt' => 'created_at'
+        ];
 
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-        return $this;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-        return $this;
-    }
-
-    public function getCreatedAt(): string
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(string $createdAt): self
-    {
-        $this->createdAt = $createdAt;
         return $this;
     }
 }

@@ -10,25 +10,44 @@ abstract class Entity
 
     protected DatabaseConnection $connection;
 
+    protected array $fields;
+
     public function __construct()
     {
         $this->setTableName();
         $this->setConnection();
+        $this->setFields();
     }
-
-    abstract public function mapToObject(array $data): self;
 
     public function getTableName(): string
     {
         return $this->tableName;
     }
 
-    abstract public function setTableName(): self;
+    abstract protected function setTableName(): self;
 
     public function getConnection(): DatabaseConnection
     {
         return $this->connection;
     }
 
-    abstract public function setConnection(): self;
+    abstract protected function setConnection(): self;
+
+    public function toArray(): array
+    {
+        $result = [];
+
+        foreach ($this->getFields() as $field) {
+            $result[$field] = $this->{$field};
+        }
+
+        return $result;
+    }
+
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
+
+    abstract protected function setFields(): self;
 }
