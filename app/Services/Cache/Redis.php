@@ -54,14 +54,8 @@ class Redis implements Cache
         return $value;
     }
 
-    public function delete($key): array
+    public function delete($key): bool
     {
-        $keys = $this->redis->keys($key);
-
-        if (count($keys) > 0) {
-            $this->redis->del($keys);
-        }
-
-        return $keys;
+        return $this->redis->del($key);
     }
 }

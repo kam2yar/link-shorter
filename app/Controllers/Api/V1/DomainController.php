@@ -24,6 +24,7 @@ class DomainController extends Controller
         ]);
 
         $success = $this->domainService->insert(input('name'), input('active', true));
+        $this->forgetCache();
 
         response()->httpCode(201)->json([
             'success' => $success
@@ -32,8 +33,27 @@ class DomainController extends Controller
 
     public function all(): void
     {
+        $domains = $this->cache->remember('domains', function () {
+            return $this->domainService->all();
+        }, 3600);
+
         response()->json([
-            'domains' => $this->domainService->all()
+            'domains' => $domains
+        ]);
+    }
+
+    public function forgetCache(): void
+    {
+        $this->cache->delete('domains');
+    }
+
+    public function delete(int $id): void
+    {
+        $success = $this->domainService->delete($id);
+        $this->forgetCache();
+
+        response()->json([
+            'success' => $success
         ]);
     }
 
@@ -43,18 +63,12 @@ class DomainController extends Controller
             'name' => 'required|unique:domains,name',
             'active' => 'nullable|boolean'
         ]);
-        
+
         $success = $this->domainService->update($id, input('name'), input('active'));
+        $this->forgetCache();
 
         response()->json([
             'success' => $success
-        ]);
-    }
-
-    public function delete(int $id): void
-    {
-        response()->json([
-            'success' => $this->domainService->delete($id)
         ]);
     }
 }

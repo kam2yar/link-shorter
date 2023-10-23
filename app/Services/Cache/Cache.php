@@ -11,5 +11,5 @@ interface Cache
     public function set($key, $value, $ttl = null): mixed;
 
 
-    public function delete($key): array;
+    public function delete($key): bool;
 }
