@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Entities\Link;
 use App\Repositories\LinkRepository;
 use App\Transformers\LinkListTransformer;
+use Exception;
 use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 
 class LinkService
@@ -16,8 +17,19 @@ class LinkService
         $this->linkRepository = new LinkRepository();
     }
 
-    public function short(string $original, ?int $userId = null, ?int $domainId = null): Link
+    public function short(string $original, ?int $userId = null, ?int $domainId = null): string
     {
+        $baseUrl = base_url();
+        if ($domainId) {
+            $domain = (new DomainService())->findOrFail($domainId);
+
+            if (!$domain['active']) {
+                throw new Exception('Domain is not active');
+            }
+
+            $baseUrl = 'https://' . $domain['name'] . '/';
+        }
+
         $entity = new Link();
         $entity->short = uniqid();
         $entity->original = $original;
@@ -28,7 +40,18 @@ class LinkService
 
         $this->linkRepository->insert($entity);
 
-        return $entity;
+        return $baseUrl . $entity->short;
+    }
+
+    public function findOrFail(string $short): array
+    {
+        $link = $this->linkRepository->find($short, 'short');
+
+        if (!$link) {
+            throw new NotFoundHttpException();
+        }
+
+        return $link;
     }
 
     public function getMyLinks(int $userId): array
@@ -41,17 +64,6 @@ class LinkService
     public function delete(int $id): bool
     {
         return $this->linkRepository->delete($id);
-    }
-
-    public function findOrFail(string $short): array
-    {
-        $link = $this->linkRepository->find($short, 'short');
-
-        if (!$link) {
-            throw new NotFoundHttpException();
-        }
-
-        return $link;
     }
 
     public function update(int $id, ?string $short = null, ?string $original = null, ?int $domainId = null): bool
