@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Validation;
 
 use Rakit\Validation\Validator;
 
@@ -11,6 +11,7 @@ class FormValidator
     public function __construct()
     {
         $this->validator = new Validator();
+        $this->validator->addValidator('unique', new UniqueRule());
     }
 
     public function validate(array $inputs = [], array $rules = [], array $messages = []): void

@@ -18,6 +18,11 @@ class DomainController extends Controller
 
     public function store(): void
     {
+        $this->validator->validate(input()->all(), [
+            'name' => 'required|unique:domains,name',
+            'active' => 'nullable|boolean'
+        ]);
+
         $success = $this->domainService->insert(input('name'), input('active', true));
 
         response()->httpCode(201)->json([
@@ -34,6 +39,11 @@ class DomainController extends Controller
 
     public function update(int $id): void
     {
+        $this->validator->validate(input()->all(), [
+            'name' => 'required|unique:domains,name',
+            'active' => 'nullable|boolean'
+        ]);
+        
         $success = $this->domainService->update($id, input('name'), input('active'));
 
         response()->json([

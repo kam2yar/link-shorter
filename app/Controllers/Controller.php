@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use App\Services\Cache\Cache;
 use App\Services\Cache\Redis;
-use App\Services\FormValidator;
+use App\Services\Validation\FormValidator;
 
 class Controller
 {

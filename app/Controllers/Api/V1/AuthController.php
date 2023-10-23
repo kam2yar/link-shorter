@@ -18,6 +18,11 @@ class AuthController extends Controller
 
     public function register(): void
     {
+        $this->validator->validate(input()->all(), [
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8'
+        ]);
+
         $success = $this->authService->register(input('email'), input('password'));
 
         response()->httpCode(201)->json([
@@ -28,6 +33,11 @@ class AuthController extends Controller
 
     public function login(): void
     {
+        $this->validator->validate(input()->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
         $token = $this->authService->login(input('email'), input('password'));
 
         response()->httpCode(201)->json([

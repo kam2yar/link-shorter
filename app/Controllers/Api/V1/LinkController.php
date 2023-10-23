@@ -65,7 +65,7 @@ class LinkController extends Controller
     public function update(string $short): void
     {
         $this->validator->validate(input()->all(), [
-            'short' => 'nullable',
+            'short' => 'nullable|unique:links,short',
             'original' => 'nullable|url',
             'domain_id' => 'nullable|numeric'
         ]);
