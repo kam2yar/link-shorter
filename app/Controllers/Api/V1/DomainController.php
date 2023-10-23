@@ -18,11 +18,11 @@ class DomainController extends Controller
         $this->domainRepository = new DomainRepository();
     }
 
-    public function short(): void
+    public function store(): void
     {
         $entity = new Domain();
         $entity->name = input('name');
-        $entity->active = input('active');
+        $entity->active = input('active') ?: true;
         $entity->createdAt = now();
         $entity->updatedAt = now();
 

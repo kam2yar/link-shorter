@@ -10,11 +10,11 @@ final class CreateDomainsTableMigration extends AbstractMigration
     protected function up(): void
     {
         $this->table('domains')
-            ->addColumn('domain', 'string')
+            ->addColumn('name', 'string')
             ->addColumn('active', 'boolean', ['default' => 1])
             ->addColumn('created_at', 'datetime', ['null' => true])
             ->addColumn('updated_at', 'datetime', ['null' => true])
-            ->addIndex('domain', Index::TYPE_UNIQUE)
+            ->addIndex('name', Index::TYPE_UNIQUE)
             ->create();
     }
 

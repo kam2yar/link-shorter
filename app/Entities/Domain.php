@@ -10,7 +10,7 @@ class Domain extends Entity
 
     public string $name;
 
-    public bool $active;
+    public bool $active = true;
 
     public ?string $createdAt = null;
 

@@ -71,7 +71,7 @@ abstract class BaseRepository
             ->update($this->entity->getTableName())
             ->where('id = :id')
             ->set(...array_keys($data));
-        
+
         $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
         $params = array_merge(['id' => $id], $data);
 
