@@ -2,10 +2,11 @@
 
 namespace App\Controllers\Web;
 
+use App\Controllers\Controller;
 use App\Repositories\LinkRepository;
 use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 
-class RedirectController
+class RedirectController extends Controller
 {
     public function redirect(string $short): void
     {

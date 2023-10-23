@@ -28,17 +28,17 @@ abstract class BaseRepository
         return $this->entity->getDatabase()->getConnection()->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function find(int $id): ?array
+    public function find(mixed $value, string $field = 'id'): ?array
     {
         $query = (new QueryBuilder())
-            ->select('*')
+            ->select(...$this->entity->getFields())
             ->from($this->entity->getTableName())
-            ->where('id = :id')
+            ->where($field . ' = :field')
             ->limit(1);
 
         $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
         $stmt->execute([
-            'id' => $id
+            'field' => $value
         ]);
 
         $result = $stmt->fetch(PDO::FETCH_ASSOC);

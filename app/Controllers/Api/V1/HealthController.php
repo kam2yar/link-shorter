@@ -2,7 +2,9 @@
 
 namespace App\Controllers\Api\V1;
 
-class HealthController
+use App\Controllers\Controller;
+
+class HealthController extends Controller
 {
     public function ping(): void
     {

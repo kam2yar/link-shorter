@@ -2,18 +2,21 @@
 
 namespace App\Controllers\Api\V1;
 
+use App\Controllers\Controller;
 use App\Entities\Link;
 use App\Repositories\LinkRepository;
 use App\Transformers\LinkListTransformer;
 use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
 
-class LinkController
+class LinkController extends Controller
 {
-    protected LinkRepository $repository;
+    protected LinkRepository $linkRepository;
 
     public function __construct()
     {
-        $this->repository = new LinkRepository();
+        parent::__construct();
+
+        $this->linkRepository = new LinkRepository();
     }
 
     public function short(): void
@@ -21,19 +24,19 @@ class LinkController
         $entity = new Link();
         $entity->short = uniqid();
         $entity->long = input('long');
-        $entity->userId = null;
-        $entity->createdAt = date('Y-m-d H:i:s');
+        $entity->userId = $this->userId;
+        $entity->createdAt = now();
 
-        $this->repository->insert($entity);
+        $this->linkRepository->insert($entity);
 
-        response()->json([
+        response()->httpCode(201)->json([
             'short_link' => base_url() . $entity->short
         ]);
     }
 
     public function myLinks(): void
     {
-        $links = $this->repository->all(['short', 'long']);
+        $links = $this->linkRepository->all(['short', 'long']);
 
         response()->json([
             'links' => LinkListTransformer::transform($links)
@@ -42,7 +45,7 @@ class LinkController
 
     public function get(string $short): void
     {
-        $link = $this->repository->findByShortLink($short);
+        $link = $this->linkRepository->find($short, 'short');
 
         if (!$link) {
             throw new NotFoundHttpException();
@@ -55,14 +58,14 @@ class LinkController
 
     public function delete(string $short): void
     {
-        $link = $this->repository->findByShortLink($short);
+        $link = $this->linkRepository->findByShortLink($short);
 
         if (!$link) {
             throw new NotFoundHttpException();
         }
-        
+
         response()->json([
-            'success' => $this->repository->delete($link['id'])
+            'success' => $this->linkRepository->delete($link['id'])
         ]);
     }
 }
