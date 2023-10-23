@@ -1,8 +1,8 @@
-# Simple link shorter API
+# Link shorter API
 
 ## Installation
 
-Change the environment variables in `.env` file after copying the `.env.example` file.
+Copy the `.env.example` file and change the environment variables in `.env` file.
 
 ```
 cp .env.example .env
