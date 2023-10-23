@@ -3,72 +3,38 @@
 namespace App\Controllers\Api\V1;
 
 use App\Controllers\Controller;
-use App\Entities\Domain;
-use App\Repositories\DomainRepository;
-use Pecee\SimpleRouter\Exceptions\NotFoundHttpException;
+use App\Services\DomainService;
 
 class DomainController extends Controller
 {
-    protected DomainRepository $domainRepository;
+    protected DomainService $domainService;
 
     public function __construct()
     {
         parent::__construct();
 
-        $this->domainRepository = new DomainRepository();
+        $this->domainService = new DomainService();
     }
 
     public function store(): void
     {
-        $entity = new Domain();
-        $entity->name = input('name');
-        $entity->active = input('active') ?: true;
-        $entity->createdAt = now();
-        $entity->updatedAt = now();
-
-        $this->domainRepository->insert($entity);
+        $success = $this->domainService->insert(input('name'), input('active', true));
 
         response()->httpCode(201)->json([
-            'success' => true
+            'success' => $success
         ]);
     }
 
     public function all(): void
     {
-        $domains = $this->domainRepository->all();
-
         response()->json([
-            'domains' => $domains
+            'domains' => $this->domainService->all()
         ]);
     }
 
     public function update(int $id): void
     {
-        $domain = $this->domainRepository->find($id);
-
-        if (!$domain) {
-            throw new NotFoundHttpException();
-        }
-
-        $data = [];
-
-        if ($name = input('name')) {
-            $data['name'] = $name;
-        }
-
-        if ($active = input('active')) {
-            $data['active'] = $active;
-        }
-
-        if (empty($data)) {
-            response()->json([
-                'success' => true
-            ]);
-        } else {
-            $data['updated_at'] = now();
-        }
-
-        $success = $this->domainRepository->update($id, $data);
+        $success = $this->domainService->update($id, input('name'), input('active'));
 
         response()->json([
             'success' => $success
@@ -77,14 +43,8 @@ class DomainController extends Controller
 
     public function delete(int $id): void
     {
-        $domain = $this->domainRepository->find($id);
-
-        if (!$domain) {
-            throw new NotFoundHttpException();
-        }
-
         response()->json([
-            'success' => $this->domainRepository->delete($id)
+            'success' => $this->domainService->delete($id)
         ]);
     }
 }
