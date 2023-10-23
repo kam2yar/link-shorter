@@ -3,6 +3,7 @@
 namespace App\Controllers\Api\V1;
 
 use App\Controllers\Controller;
+use App\Services\DomainService;
 use App\Services\LinkService;
 
 class LinkController extends Controller
@@ -18,10 +19,17 @@ class LinkController extends Controller
 
     public function short(): void
     {
-        $entity = $this->linkService->short(input('original', $this->userId));
+        $baseUrl = base_url();
+        $domainId = input('domain_id');
+        if ($domainId) {
+            $domain = (new DomainService())->findOrFail($domainId);
+            $baseUrl = 'https://' . $domain['name'] . '/';
+        }
+
+        $entity = $this->linkService->short(input('original'), $this->userId, $domainId);
 
         response()->httpCode(201)->json([
-            'short_link' => base_url() . $entity->short
+            'short_link' => $baseUrl . $entity->short
         ]);
     }
 

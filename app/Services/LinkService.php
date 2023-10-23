@@ -16,13 +16,13 @@ class LinkService
         $this->linkRepository = new LinkRepository();
     }
 
-    public function short(string $original, ?int $userId = null): Link
+    public function short(string $original, ?int $userId = null, ?int $domainId = null): Link
     {
         $entity = new Link();
         $entity->short = uniqid();
-        $entity->original = input('original');
+        $entity->original = $original;
         $entity->userId = $userId;
-        $entity->domainId = null;
+        $entity->domainId = $domainId;
         $entity->createdAt = now();
         $entity->updatedAt = now();
 
