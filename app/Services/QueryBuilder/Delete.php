@@ -15,7 +15,11 @@ class Delete implements QueryInterface
 
     public function __toString(): string
     {
-        return 'DELETE FROM ' . $this->table . ($this->conditions === [] ? '' : ' WHERE ' . implode(' AND ', $this->conditions));
+        $conditions = array_map(function ($item) {
+            return '`' . $item . '`';
+        }, $this->conditions);
+
+        return 'DELETE FROM ' . $this->table . ($this->conditions === [] ? '' : ' WHERE ' . implode(' AND ', $conditions));
     }
 
     public function where(string ...$where): self
@@ -23,6 +27,7 @@ class Delete implements QueryInterface
         foreach ($where as $arg) {
             $this->conditions[] = $arg;
         }
+
         return $this;
     }
 }

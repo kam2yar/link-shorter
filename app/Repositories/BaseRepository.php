@@ -17,24 +17,24 @@ abstract class BaseRepository
 
     abstract public function setEntity();
 
-    public function all(Entity $entity): array
+    public function all(): array
     {
         $query = (new QueryBuilder())
             ->select('*')
-            ->from($entity->getTableName());
+            ->from($this->entity->getTableName());
 
-        return $entity->getDatabase()->getConnection()->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->entity->getDatabase()->getConnection()->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function find(Entity $entity, int $id): ?array
+    public function find(int $id): ?array
     {
         $query = (new QueryBuilder())
             ->select('*')
-            ->from($entity->getTableName())
+            ->from($this->entity->getTableName())
             ->where('id = :id')
             ->limit(1);
 
-        $stmt = $entity->getDatabase()->getConnection()->prepare($query);
+        $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
         $stmt->execute([
             'id' => $id
         ]);
@@ -47,13 +47,13 @@ abstract class BaseRepository
         return $result;
     }
 
-    public function delete(Entity $entity, int $id): void
+    public function delete(int $id): void
     {
         $query = (new QueryBuilder())
-            ->delete($entity->getTableName())
+            ->delete($this->entity->getTableName())
             ->where('id = :id');
 
-        $stmt = $entity->getDatabase()->getConnection()->prepare($query);
+        $stmt = $this->entity->getDatabase()->getConnection()->prepare($query);
         $stmt->execute(['id' => $id]);
     }
 }

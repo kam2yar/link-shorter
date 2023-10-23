@@ -31,7 +31,6 @@ class Link extends Entity
     protected function setFields(): self
     {
         $this->fields = [
-            'id' => 'id',
             'long' => 'long',
             'short' => 'short',
             'userId' => 'user_id',

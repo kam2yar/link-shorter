@@ -17,9 +17,17 @@ class Update implements QueryInterface
 
     public function __toString(): string
     {
+        $columns = array_map(function ($item) {
+            return '`' . $item . '`';
+        }, $this->columns);
+
+        $conditions = array_map(function ($item) {
+            return '`' . $item . '`';
+        }, $this->conditions);
+
         return 'UPDATE ' . $this->table
-            . ' SET ' . implode(', ', $this->columns)
-            . ($this->conditions === [] ? '' : ' WHERE ' . implode(' AND ', $this->conditions));
+            . ' SET ' . implode(', ', $columns)
+            . ($this->conditions === [] ? '' : ' WHERE ' . implode(' AND ', $conditions));
     }
 
     public function where(string ...$where): self

@@ -33,11 +33,19 @@ class Select implements QueryInterface
 
     public function __toString(): string
     {
-        return 'SELECT ' . implode(', ', $this->fields)
+        $fields = array_map(function ($item) {
+            return '`' . $item . '`';
+        }, $this->fields);
+
+        $conditions = array_map(function ($item) {
+            return '`' . $item . '`';
+        }, $this->conditions);
+
+        return 'SELECT ' . implode(', ', $fields)
             . ' FROM ' . implode(', ', $this->from)
             . ($this->leftJoin === [] ? '' : ' LEFT JOIN ' . implode(' LEFT JOIN ', $this->leftJoin))
             . ($this->innerJoin === [] ? '' : ' INNER JOIN ' . implode(' INNER JOIN ', $this->innerJoin))
-            . ($this->conditions === [] ? '' : ' WHERE ' . implode(' AND ', $this->conditions))
+            . ($this->conditions === [] ? '' : ' WHERE ' . implode(' AND ', $conditions))
             . ($this->order === [] ? '' : ' ORDER BY ' . implode(', ', $this->order))
             . ($this->limit === null ? '' : ' LIMIT ' . $this->limit);
     }

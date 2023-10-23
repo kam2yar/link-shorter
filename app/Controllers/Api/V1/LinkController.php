@@ -10,14 +10,19 @@ class LinkController
     public function short(): void
     {
         $repository = new LinkRepository();
+
         $entity = new Link();
-        $entity->short = 'something';
+        $entity->short = rand(0, 999999);
         $entity->long = 'something bozorgtar';
-        $entity->createdAt = '2022-09-02 12:12:12';
-        $created = $repository->save($entity);
+        $entity->userId = null;
+        $entity->createdAt = date('Y-m-d H:i:s');
+
+        $repository->insert($entity);
 
         response()->json([
-            'data' => $created
+            'data' => [
+                'url' => $entity->short
+            ]
         ]);
     }
 

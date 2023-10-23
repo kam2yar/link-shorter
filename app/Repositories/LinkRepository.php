@@ -13,22 +13,20 @@ class LinkRepository extends BaseRepository
         $this->entity = new Link();
     }
 
-    public function save(Entity $entity): array
+    public function insert(Entity $entity): bool
     {
         $query = (new QueryBuilder())
             ->insert($entity->getTableName())
-            ->columns(...$entity->getFields());
+            ->columns('short', 'long', 'user_id', 'created_at');
 
         $stmt = $entity->getDatabase()->getConnection()->prepare($query);
-        $stmt->execute([
-            'id' => null,
+        
+        return $stmt->execute([
             'short' => $entity->short,
             'long' => $entity->long,
             'user_id' => $entity->userId,
-            'created_at' => $entity->createdAt,
+            'created_at' => $entity->createdAt
         ]);
-
-        return [];
     }
 
 }

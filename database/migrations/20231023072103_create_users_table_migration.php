@@ -12,7 +12,7 @@ final class CreateUsersTableMigration extends AbstractMigration
         $this->table('users')
             ->addColumn('email', 'string')
             ->addColumn('password', 'string')
-            ->addColumn('created_at', 'datetime')
+            ->addColumn('created_at', 'datetime', ['null' => true])
             ->addIndex('email', Index::TYPE_UNIQUE)
             ->create();
     }

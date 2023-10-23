@@ -17,16 +17,22 @@ class Insert implements QueryInterface
 
     public function __toString(): string
     {
+        $columns = array_map(function ($item) {
+            return '`' . $item . '`';
+        }, $this->columns);
+
         return 'INSERT INTO ' . $this->table
-            . ' (' . implode(', ', $this->columns) . ') VALUES (' . implode(', ', $this->values) . ')';
+            . ' (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $this->values) . ')';
     }
 
     public function columns(string ...$columns): self
     {
         $this->columns = $columns;
+
         foreach ($columns as $column) {
             $this->values[] = ":$column";
         }
+
         return $this;
     }
 }
