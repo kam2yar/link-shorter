@@ -30,10 +30,12 @@ class JwtHandler
             return $decode->data;
         } catch (ExpiredException|SignatureInvalidException $e) {
             response()->httpCode(401)->json([
+                'success' => false,
                 'message' => $e->getMessage()
             ]);
         } catch (UnexpectedValueException|Exception $e) {
             response()->httpCode(400)->json([
+                'success' => false,
                 'message' => $e->getMessage()
             ]);
         }
