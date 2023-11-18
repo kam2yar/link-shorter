@@ -20,7 +20,7 @@ class AuthController extends Controller
     {
         $this->validator->validate(input()->all(), [
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:8'
+            'password' => 'required|min:8',
         ]);
 
         $success = $this->authService->register(input('email'), input('password'));
@@ -40,7 +40,7 @@ class AuthController extends Controller
 
         $token = $this->authService->login(input('email'), input('password'));
 
-        response()->httpCode(201)->json([
+        response()->json([
             'success' => true,
             'message' => 'Successful login',
             'token' => $token

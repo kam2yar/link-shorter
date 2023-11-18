@@ -10,6 +10,8 @@ class User extends Entity
 
     public ?int $id = null;
 
+    public int $isAdmin = 0;
+
     public string $email;
 
     public string $password;
@@ -34,6 +36,7 @@ class User extends Entity
             'id' => 'id',
             'email' => 'email',
             'password' => 'password',
+            'isAdmin' => 'is_admin',
             'createdAt' => 'created_at'
         ];
 

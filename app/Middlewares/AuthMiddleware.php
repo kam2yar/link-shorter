@@ -11,7 +11,6 @@ class AuthMiddleware implements IMiddleware
 {
     public function handle(Request $request): void
     {
-
         $token = getallheaders()['Authorization'] ?? null;
 
         if (!$token) {

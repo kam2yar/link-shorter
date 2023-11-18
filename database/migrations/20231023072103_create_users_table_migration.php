@@ -12,6 +12,7 @@ final class CreateUsersTableMigration extends AbstractMigration
         $this->table('users')
             ->addColumn('email', 'string')
             ->addColumn('password', 'string')
+            ->addColumn('is_admin', 'boolean', ['default' => 0])
             ->addColumn('created_at', 'datetime', ['null' => true])
             ->addIndex('email', Index::TYPE_UNIQUE)
             ->create();
