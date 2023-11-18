@@ -1,0 +1,230 @@
+{
+  "info": {
+    "_postman_id": "290234f5-b3ab-4049-9981-0fc6dcef7dd7",
+    "name": "Shorter",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+    "_exporter_id": "11212806"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "example@test.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "password",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "{{BASE_URL}}/api/v1/auth/register"
+          },
+          "response": []
+        },
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "email",
+                  "value": "example@test.com",
+                  "type": "text"
+                },
+                {
+                  "key": "password",
+                  "value": "password",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "{{BASE_URL}}/api/v1/auth/login"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Link",
+      "item": [
+        {
+          "name": "New",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "original",
+                  "value": "https://google.com/",
+                  "type": "text"
+                },
+                {
+                  "key": "domain_id",
+                  "value": "1",
+                  "type": "text",
+                  "disabled": true
+                }
+              ]
+            },
+            "url": "{{BASE_URL}}/api/v1/link"
+          },
+          "response": []
+        },
+        {
+          "name": "Redirect",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{BASE_URL}}/6536a39c2b44e"
+          },
+          "response": []
+        },
+        {
+          "name": "My links",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{BASE_URL}}/api/v1/link"
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"original\": \"https://google.com\",\n    \"short\": \"test\"\n}"
+            },
+            "url": "{{BASE_URL}}/api/v1/link/6536906f1c55b"
+          },
+          "response": []
+        },
+        {
+          "name": "Get link",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{BASE_URL}}/api/v1/link/6558b6010b6f9"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{BASE_URL}}/api/v1/link/6558b6010b6f9"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Domain",
+      "item": [
+        {
+          "name": "New",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "name",
+                  "value": "google.com",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": "{{BASE_URL}}/api/v1/domain"
+          },
+          "response": []
+        },
+        {
+          "name": "All",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{BASE_URL}}/api/v1/domain"
+          },
+          "response": []
+        },
+        {
+          "name": "Update",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"google.com\"\n}"
+            },
+            "url": "{{BASE_URL}}/api/v1/domain/1"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{BASE_URL}}/api/v1/domain/1"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": {
+      "token": ""
+    }
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://127.0.0.1:8081",
+      "type": "string"
+    }
+  ]
+}
